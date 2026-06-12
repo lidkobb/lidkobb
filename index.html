@@ -1,0 +1,479 @@
+<!DOCTYPE html>
+<html lang="sv">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Lidkobb — Digitala verktyg för idrottsföreningar</title>
+  <meta name="description" content="Vi moderniserar administrationen för idrottsföreningar. Mindre Excel. Mer sport." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Source+Serif+4:wght@400;700&display=swap" rel="stylesheet" />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --background: #111318;
+      --surface: #181b22;
+      --foreground: #f6f7f9;
+      --muted: #1e2128;
+      --muted-foreground: #8a909e;
+      --border: rgba(255,255,255,0.08);
+      --accent: #3ecfb2;
+      --accent-dark: #111318;
+      --radius: 0.625rem;
+      --font-sans: 'Inter', ui-sans-serif, system-ui, sans-serif;
+      --font-display: 'Source Serif 4', ui-serif, Georgia, serif;
+      --green: #1F5C3E;
+    }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      background: var(--background);
+      color: var(--foreground);
+      font-family: var(--font-sans);
+      -webkit-font-smoothing: antialiased;
+      min-height: 100vh;
+    }
+
+    ::selection { background: var(--accent); color: var(--accent-dark); }
+
+    a { color: inherit; text-decoration: none; }
+
+    /* NAV */
+    header {
+      position: fixed;
+      top: 0; left: 0; right: 0;
+      z-index: 50;
+      border-bottom: 1px solid var(--border);
+      background: rgba(17,19,24,0.85);
+      backdrop-filter: blur(12px);
+    }
+
+    nav {
+      max-width: 72rem;
+      margin: 0 auto;
+      padding: 1rem 1.5rem;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .logo {
+      font-family: var(--font-display);
+      font-weight: 700;
+      color: var(--green);
+      letter-spacing: -0.02em;
+      line-height: 1;
+    }
+
+    .logo-lg { font-size: 4.5rem; }
+    .logo-xl { font-size: 6rem; }
+    .logo-sm { font-size: 1.1rem; }
+    .logo-nav { font-size: 1.25rem; }
+
+    @media (min-width: 768px) {
+      .logo-lg { font-size: 6rem; }
+      .logo-xl { font-size: 8rem; }
+    }
+
+    .nav-links {
+      display: none;
+      list-style: none;
+      gap: 1.75rem;
+      align-items: center;
+    }
+
+    @media (min-width: 768px) { .nav-links { display: flex; } }
+
+    .nav-links a {
+      font-size: 0.875rem;
+      color: var(--muted-foreground);
+      transition: color 0.15s;
+    }
+
+    .nav-links a:hover { color: var(--foreground); }
+
+    .nav-right { display: flex; align-items: center; gap: 1.5rem; }
+
+    .lang-toggle {
+      display: flex;
+      border: 1px solid var(--border);
+      border-radius: 9999px;
+      padding: 2px;
+      font-size: 0.75rem;
+      font-weight: 500;
+      background: transparent;
+    }
+
+    .lang-btn {
+      border: none;
+      background: transparent;
+      color: var(--muted-foreground);
+      cursor: pointer;
+      padding: 0.25rem 0.75rem;
+      border-radius: 9999px;
+      transition: background 0.15s, color 0.15s;
+      font-size: 0.75rem;
+      font-weight: 500;
+      font-family: var(--font-sans);
+    }
+
+    .lang-btn.active {
+      background: var(--foreground);
+      color: var(--background);
+    }
+
+    /* HERO */
+    main { padding-top: 6rem; }
+
+    .hero {
+      max-width: 72rem;
+      margin: 0 auto;
+      padding: 5rem 1.5rem 7rem;
+      text-align: center;
+      position: relative;
+    }
+
+    @media (min-width: 768px) { .hero { padding: 8rem 1.5rem 10rem; } }
+
+    .hero-glow {
+      position: absolute;
+      inset: 0;
+      z-index: -1;
+      pointer-events: none;
+      background: radial-gradient(60% 50% at 50% 0%, rgba(62,207,178,0.1), transparent 70%);
+    }
+
+    .hero h1 {
+      margin-top: 2.5rem;
+      font-size: 1.875rem;
+      font-weight: 500;
+      line-height: 1.1;
+      letter-spacing: -0.02em;
+      max-width: 48rem;
+      margin-left: auto;
+      margin-right: auto;
+    }
+
+    @media (min-width: 768px) { .hero h1 { font-size: 3rem; } }
+
+    .hero-sub {
+      margin-top: 1.25rem;
+      color: var(--muted-foreground);
+      font-size: 1rem;
+      max-width: 36rem;
+      margin-left: auto;
+      margin-right: auto;
+    }
+
+    @media (min-width: 768px) { .hero-sub { font-size: 1.125rem; } }
+
+    .btn-contact {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      margin-top: 2.5rem;
+      background: var(--foreground);
+      color: var(--background);
+      border-radius: 9999px;
+      padding: 0.625rem 1.25rem;
+      font-size: 0.875rem;
+      font-weight: 500;
+      transition: background 0.15s, color 0.15s;
+      border: none;
+      cursor: pointer;
+      text-decoration: none;
+    }
+
+    .btn-contact:hover { background: var(--accent); color: var(--accent-dark); }
+
+    /* SECTIONS */
+    .section {
+      border-top: 1px solid var(--border);
+    }
+
+    .section-inner {
+      max-width: 72rem;
+      margin: 0 auto;
+      padding: 6rem 1.5rem;
+      display: grid;
+      gap: 2.5rem;
+    }
+
+    @media (min-width: 768px) {
+      .section-inner {
+        grid-template-columns: 4fr 8fr;
+        padding: 8rem 1.5rem;
+      }
+    }
+
+    .eyebrow {
+      font-family: monospace;
+      font-size: 0.7rem;
+      text-transform: uppercase;
+      letter-spacing: 0.2em;
+      color: var(--accent);
+      margin-bottom: 0.75rem;
+    }
+
+    .section-title {
+      font-family: var(--font-display);
+      font-size: 2rem;
+      letter-spacing: -0.02em;
+      line-height: 1;
+    }
+
+    @media (min-width: 768px) { .section-title { font-size: 2.5rem; } }
+
+    .section-text {
+      font-size: 1.125rem;
+      line-height: 1.7;
+      color: var(--muted-foreground);
+      max-width: 40rem;
+    }
+
+    @media (min-width: 768px) { .section-text { font-size: 1.25rem; } }
+
+    /* CONTACT CARDS */
+    .contact-lead {
+      font-size: 1.125rem;
+      line-height: 1.7;
+      color: var(--muted-foreground);
+      margin-bottom: 2.5rem;
+    }
+
+    .contact-cards {
+      display: grid;
+      gap: 1rem;
+    }
+
+    @media (min-width: 480px) { .contact-cards { grid-template-columns: 1fr 1fr; } }
+
+    .contact-card {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+      border: 1px solid var(--border);
+      background: var(--surface);
+      border-radius: 0.75rem;
+      padding: 1.25rem;
+      transition: border-color 0.15s;
+      text-decoration: none;
+      color: inherit;
+    }
+
+    .contact-card:hover { border-color: var(--accent); }
+
+    .card-icon {
+      width: 2.5rem; height: 2.5rem;
+      display: flex; align-items: center; justify-content: center;
+      border-radius: 0.5rem;
+      background: var(--muted);
+      color: var(--accent);
+      flex-shrink: 0;
+    }
+
+    .card-label {
+      display: block;
+      font-size: 0.65rem;
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      color: var(--muted-foreground);
+      margin-bottom: 0.2rem;
+    }
+
+    .card-value {
+      display: block;
+      font-size: 1rem;
+      font-weight: 500;
+    }
+
+    .contact-card:hover .card-value { color: var(--accent); }
+
+    /* FOOTER */
+    footer {
+      border-top: 1px solid var(--border);
+      margin-top: 5rem;
+    }
+
+    .footer-inner {
+      max-width: 72rem;
+      margin: 0 auto;
+      padding: 2rem 1.5rem;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 1rem;
+      font-size: 0.875rem;
+      color: var(--muted-foreground);
+    }
+
+    @media (min-width: 640px) {
+      .footer-inner { flex-direction: row; justify-content: space-between; }
+    }
+
+    /* SVG icons inline */
+    svg { display: block; }
+  </style>
+</head>
+<body>
+
+<header>
+  <nav>
+    <a href="#top" aria-label="Lidkobb">
+      <span class="logo logo-nav">Lidkobb.</span>
+    </a>
+    <div class="nav-right">
+      <ul class="nav-links" id="nav-links">
+        <li><a href="#about" id="nav-about">Om oss</a></li>
+        <li><a href="#what" id="nav-what">Vad vi gör</a></li>
+        <li><a href="#contact" id="nav-contact">Kontakt</a></li>
+      </ul>
+      <div class="lang-toggle" role="group" aria-label="Language">
+        <button class="lang-btn active" id="btn-sv" onclick="setLang('sv')">SV</button>
+        <button class="lang-btn" id="btn-en" onclick="setLang('en')">EN</button>
+      </div>
+    </div>
+  </nav>
+</header>
+
+<main id="top">
+  <!-- HERO -->
+  <section class="hero">
+    <div class="hero-glow"></div>
+    <span class="logo logo-lg">Lidkobb.</span>
+    <h1 id="hero-tagline">Vi moderniserar administrationen för idrottsföreningar</h1>
+    <p class="hero-sub" id="hero-sub">Mindre Excel. Mer sport.</p>
+    <a href="#contact" class="btn-contact" id="btn-contact-hero">Kontakt →</a>
+  </section>
+
+  <!-- ABOUT -->
+  <section class="section" id="about">
+    <div class="section-inner">
+      <div>
+        <div class="eyebrow">01</div>
+        <h2 class="section-title" id="about-title">Om oss</h2>
+      </div>
+      <div>
+        <p class="section-text" id="about-text">Vi är Nore Wahlberg och Sebastian Collis, två unga entreprenörer från Helsingborg som bygger digitala verktyg för idrottsföreningar. Vår mission är att frigöra tid från tidskrävande administration så att klubbarna kan fokusera på det som verkligen spelar roll — sporten.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- WHAT WE DO -->
+  <section class="section" id="what">
+    <div class="section-inner">
+      <div>
+        <div class="eyebrow">02</div>
+        <h2 class="section-title" id="what-title">Vad vi gör</h2>
+      </div>
+      <div>
+        <p class="section-text" id="what-text">Vi utvecklar ett digitalt verktyg som hjälper idrottsföreningar att slippa manuellt arbete med Excel, maillistor och medlemsregistreringar.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- CONTACT -->
+  <section class="section" id="contact">
+    <div class="section-inner">
+      <div>
+        <div class="eyebrow">03</div>
+        <h2 class="section-title" id="contact-title">Kontakt</h2>
+      </div>
+      <div>
+        <p class="contact-lead" id="contact-lead">Hör gärna av dig — vi svarar inom kort.</p>
+        <div class="contact-cards">
+          <a href="mailto:info@lidkobb.com" class="contact-card">
+            <span class="card-icon">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <rect width="20" height="16" x="2" y="4" rx="2"/><path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"/>
+              </svg>
+            </span>
+            <span>
+              <span class="card-label">Email</span>
+              <span class="card-value">info@lidkobb.com</span>
+            </span>
+          </a>
+          <div class="contact-card">
+            <span class="card-icon">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M20 10c0 4.993-5.539 10.193-7.399 11.799a1 1 0 0 1-1.202 0C9.539 20.193 4 14.993 4 10a8 8 0 0 1 16 0"/><circle cx="12" cy="10" r="3"/>
+              </svg>
+            </span>
+            <span>
+              <span class="card-label" id="location-label">Plats</span>
+              <span class="card-value" id="location-value">Helsingborg, Sverige</span>
+            </span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+</main>
+
+<footer>
+  <div class="footer-inner">
+    <span class="logo logo-sm">Lidkobb.</span>
+    <p id="footer-text">© 2026 Lidkobb. Alla rättigheter förbehållna.</p>
+  </div>
+</footer>
+
+<script>
+  const translations = {
+    sv: {
+      navAbout: "Om oss", navWhat: "Vad vi gör", navContact: "Kontakt",
+      heroTagline: "Vi moderniserar administrationen för idrottsföreningar",
+      heroSub: "Mindre Excel. Mer sport.",
+      btnContact: "Kontakt →",
+      aboutTitle: "Om oss",
+      aboutText: "Vi är Nore Wahlberg och Sebastian Collis, två unga entreprenörer från Helsingborg som bygger digitala verktyg för idrottsföreningar. Vår mission är att frigöra tid från tidskrävande administration så att klubbarna kan fokusera på det som verkligen spelar roll — sporten.",
+      whatTitle: "Vad vi gör",
+      whatText: "Vi utvecklar ett digitalt verktyg som hjälper idrottsföreningar att slippa manuellt arbete med Excel, maillistor och medlemsregistreringar.",
+      contactTitle: "Kontakt",
+      contactLead: "Hör gärna av dig — vi svarar inom kort.",
+      locationLabel: "Plats",
+      locationValue: "Helsingborg, Sverige",
+      footer: "© 2026 Lidkobb. Alla rättigheter förbehållna."
+    },
+    en: {
+      navAbout: "About", navWhat: "What we do", navContact: "Contact",
+      heroTagline: "We modernize administration for sports clubs",
+      heroSub: "Less spreadsheets. More sport.",
+      btnContact: "Contact →",
+      aboutTitle: "About us",
+      aboutText: "We are Nore Wahlberg and Sebastian Collis, two young entrepreneurs from Helsingborg building digital tools for sports clubs. Our mission is to free up time from tedious administration so clubs can focus on what really matters — the sport.",
+      whatTitle: "What we do",
+      whatText: "We are building a digital tool that helps sports clubs eliminate the manual work of Excel sheets, mailing lists, and member registrations.",
+      contactTitle: "Contact",
+      contactLead: "Get in touch — we'll be back to you shortly.",
+      locationLabel: "Location",
+      locationValue: "Helsingborg, Sweden",
+      footer: "© 2026 Lidkobb. All rights reserved."
+    }
+  };
+
+  function setLang(lang) {
+    const t = translations[lang];
+    document.getElementById('nav-about').textContent = t.navAbout;
+    document.getElementById('nav-what').textContent = t.navWhat;
+    document.getElementById('nav-contact').textContent = t.navContact;
+    document.getElementById('hero-tagline').textContent = t.heroTagline;
+    document.getElementById('hero-sub').textContent = t.heroSub;
+    document.getElementById('btn-contact-hero').textContent = t.btnContact;
+    document.getElementById('about-title').textContent = t.aboutTitle;
+    document.getElementById('about-text').textContent = t.aboutText;
+    document.getElementById('what-title').textContent = t.whatTitle;
+    document.getElementById('what-text').textContent = t.whatText;
+    document.getElementById('contact-title').textContent = t.contactTitle;
+    document.getElementById('contact-lead').textContent = t.contactLead;
+    document.getElementById('location-label').textContent = t.locationLabel;
+    document.getElementById('location-value').textContent = t.locationValue;
+    document.getElementById('footer-text').textContent = t.footer;
+    document.getElementById('btn-sv').classList.toggle('active', lang === 'sv');
+    document.getElementById('btn-en').classList.toggle('active', lang === 'en');
+    document.documentElement.lang = lang;
+  }
+</script>
+</body>
+</html>
